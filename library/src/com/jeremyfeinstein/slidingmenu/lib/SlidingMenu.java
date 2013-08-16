@@ -21,6 +21,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -126,6 +127,18 @@ public class SlidingMenu extends RelativeLayout {
 		 */
 		public void onClose();
 	}
+	
+	/**
+     * An interface that one can subscribe to listen for when the SlidingMenu receives touches.
+     */
+    public interface OnTouchedEventListener {
+        /**
+         * SlidingMenu was touched.
+         * @param event The event we received.
+         * @return True if you want to consume the event, false if you want to let the SlidingMenu handle it.
+         */
+        public boolean onTouchEventIntercepted(MotionEvent event);
+    }
 
 	/**
 	 * The listener interface for receiving onClosed events.
@@ -887,6 +900,11 @@ public class SlidingMenu extends RelativeLayout {
 		//mViewAbove.setOnCloseListener(listener);
 		mCloseListener = listener;
 	}
+	
+	public void setOnTouchedEventListener(OnTouchedEventListener listener) 
+	{
+        mViewAbove.setOnTouchedEventListener(listener);
+    }
 
 	/**
 	 * Sets the OnOpenedListener. {@link OnOpenedListener#onOpened() OnOpenedListener.onOpened()} will be called after the SlidingMenu is opened
